@@ -19,7 +19,7 @@ public class Model extends DataBase {
 	 * CONSTANTS
 	 */
 	final static String ERROR_CLOSE = "Error close";
-	final static String INSERT_DATA = "INSERT INTO TIEMPO (date,tempMin, tempMax, humidity, pressure) ";
+	final static String INSERT_DATA = "INSERT INTO TIEMPO (date,tempMin, tempMax, humidity, pressure) VALUES(?,?,?,?,?,?) ";
 	final static String DROP_TABLE = "DROP TABLE TIEMPO";
 	final static String SELECT = "SELECT * FROM TIEMPO";
 	final static String ERROR_SQL = "Error SQL Exception";
@@ -102,7 +102,6 @@ public class Model extends DataBase {
 			psInsert=new PreparedStatement((MySQLConnection) this.connection, null);
 			
 			tiempo= new Tiempo(id, date, tempMin, tempMax, humidity, pressure);
-			String insert = INSERT_DATA + "VALUES(?,?,?,?,?,?)";
 			psInsert.setInt(id, 0);
 			psInsert.setString(1,date);
 			psInsert.setFloat(2, tempMin);
@@ -112,7 +111,7 @@ public class Model extends DataBase {
 
 			// Objeto con el que empezamos hacer consultas SQL.
 			statement = connection.createStatement();
-			statement.executeUpdate(insert);
+			statement.executeUpdate(INSERT_DATA);
 		} catch (SQLException e) {
 			System.err.println(ERROR_SQL);
 		} finally {
